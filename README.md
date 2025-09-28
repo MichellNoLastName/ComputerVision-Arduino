@@ -107,7 +107,7 @@ En Linux/MacOS, puede ser algo como /dev/ttyUSB0
 📸 Captura de Pantalla (opcional)
 ## 🔧 Circuito
 
-![Circuito del proyecto](docs/circuito.jpg)
+![Circuito del proyecto](docs/circuit.jpg)
 
 ## 📷 Resultados
 
@@ -118,7 +118,7 @@ En Linux/MacOS, puede ser algo como /dev/ttyUSB0
 ![Rostro Serio](docs/sad.jpg)
 
 ### LCD mostrando "SMILING"
-![LCD SMILING](images/lcdSmile.jpg)
+![LCD SMILING](docs/lcdSmile.jpg)
 
 ### LCD mostrando "SERIOUS"
-![LCD SERIOUS](images/lcdSerious.jpg)
+![LCD SERIOUS](docs/lcdSerious.jpg)
