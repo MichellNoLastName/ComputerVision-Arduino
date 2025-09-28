@@ -1,124 +1,118 @@
-# Detector de Emociones con OpenCV, MediaPipe y Arduino
+# Emotion Detector using OpenCV, MediaPipe, and Arduino
 
-Este proyecto utiliza visión por computadora para detectar si una persona está **sonriendo** o **seria** en tiempo real, y muestra el resultado en una pantalla **LCD I2C** conectada a un Arduino.
-
-## 📷 Visión General del Proyecto
-
-- El script de **Python** usa la webcam y MediaPipe para analizar los puntos faciales.
-- Calcula la distancia entre las comisuras de los labios para determinar si la persona está sonriendo.
-- Envía un carácter ('A' o 'B') al Arduino mediante comunicación **Serial**.
-- El **Arduino** recibe el carácter y actualiza el mensaje mostrado en la pantalla LCD:
-  - `'A'` → "SMILING"
-  - `'B'` → "SERIOUS"
+This project uses computer vision to detect whether a person is **smiling** or **serious** in real time, and displays the result on an **I2C LCD screen** connected to an Arduino.
 
 ---
 
-## 📁 Archivos
+## 📷 Project Overview
 
-- `detector_emociones.py`: Script principal en Python.
-- `detector_arduino.ino`: Código para el Arduino con pantalla LCD.
-- `README.md`: Documentación del proyecto (este archivo).
+- The **Python** script uses the webcam and **MediaPipe** to analyze facial landmarks.
+- It calculates the distance between the corners of the mouth to detect a smile.
+- A character (`'A'` or `'B'`) is sent to the **Arduino** over a serial connection.
+- The **Arduino** receives the character and updates the LCD display:
+  - `'A'` → `"SMILING"`
+  - `'B'` → `"SERIOUS"`
 
 ---
 
-## ⚙️ Requisitos
+## 📁 Files
+
+- `detector_emociones.py`: Python script for emotion detection.
+- `detector_arduino.ino`: Arduino sketch for LCD display.
+- `README.md`: This documentation file.
+
+---
+
+## ⚙️ Requirements
 
 ### Python
 
-- Python 3.7+
-- Librerías:
+- Python 3.7 or higher
+- Required libraries:
   - `opencv-python`
   - `mediapipe`
   - `pyserial`
 
-Instalación (recomendado con `pip`):
+Install the dependencies using `pip`:
 
-pip install opencv-python mediapipe pyserial'''
+bash
+pip install opencv-python mediapipe pyserial
+Arduino
+Arduino UNO (or compatible)
 
-##Arduino
+I2C LCD display (16x2 or 20x4)
 
-Arduino UNO o compatible.
+Library: LiquidCrystal_I2C
+(Install via Arduino Library Manager)
 
-Pantalla LCD I2C (16x2 o 20x4).
+🔌 Hardware Setup
+Wiring the I2C LCD to Arduino:
 
-Librería: LiquidCrystal_I2C
+LCD Pin	Arduino Pin
+SDA	A4
+SCL	A5
 
-Puedes instalar esta librería desde el Library Manager del IDE de Arduino.
+Connect the Arduino to your computer via USB.
 
-🔌 Conexión de Hardware
-
-LCD I2C conectado al Arduino:
-
-SDA → A4
-
-SCL → A5
-
-Arduino conectado al PC vía USB.
-
-🧠 Lógica del Código
+🧠 Code Logic
 Python (detector_emociones.py)
+Captures video from the webcam.
 
-Captura el video desde la webcam.
+Uses MediaPipe FaceMesh to detect facial landmarks.
 
-Usa MediaPipe FaceMesh para detectar puntos faciales.
+Calculates the distance between landmarks 61 and 306 (mouth corners).
 
-Calcula la distancia entre los puntos 61 y 306 (esquinas de la boca).
+If distance > 50 → smiling ('A')
 
-Si la distancia > 50 → sonrisa ('A')
+Else → serious ('B')
 
-Si la distancia ≤ 50 → serio ('B')
-
-Envía el resultado por Serial al Arduino.
+Sends the result to the Arduino via serial.
 
 Arduino (detector_arduino.ino)
+Initializes the I2C LCD display.
 
-Inicializa la pantalla LCD I2C.
+Waits for serial input.
 
-Escucha en el puerto Serial.
+Displays "SMILING" if it receives 'A'.
 
-Si recibe 'A', muestra "SMILING" en la pantalla.
+Displays "SERIOUS" otherwise.
 
-Si recibe cualquier otro carácter, muestra "SERIOUS".
+▶️ How to Run
+Upload detector_arduino.ino to your Arduino board.
 
-▶️ Cómo Ejecutar
+Ensure the LCD screen shows the initial boot message.
 
-Cargar el código Arduino (detector_arduino.ino) en tu placa.
+Run the Python script:
 
-Asegúrate de que la pantalla LCD está correctamente conectada y mostrando el mensaje inicial.
-
-Ejecuta el script de Python:
-
+bash
+Copiar código
 python detector_emociones.py
+Watch the LCD change based on your facial expression.
 
+Press q to exit.
 
-Observa cómo cambia el mensaje en la LCD dependiendo de tu expresión facial.
+📝 Notes
+Make sure to set the correct serial port in the Python script:
 
-Pulsa q para salir.
+python
+Copiar código
+arduino = serial.Serial('COM10', 9600)
+On Linux/macOS, the port may look like /dev/ttyUSB0
 
-📝 Notas
+🔧 Circuit
 
-Asegúrate de cambiar el puerto COM en el script de Python según tu sistema:
+![Proyect circuit](docs/circuit.jpg)
 
-arduino = serial.Serial('COM10',9600)
+## 📷 Results
 
+### 😄 Smiling
+![Smiling](docs/smile.jpg)
 
-En Linux/MacOS, puede ser algo como /dev/ttyUSB0
+### 😐 Serious
+![Serious](docs/sad.jpg)
 
-📸 Captura de Pantalla (opcional)
-## 🔧 Circuito
-
-![Circuito del proyecto](docs/circuit.jpg)
-
-## 📷 Resultados
-
-### 😄 Sonriendo
-![Rostro Sonriendo](docs/smile.jpg)
-
-### 😐 Serio
-![Rostro Serio](docs/sad.jpg)
-
-### LCD mostrando "SMILING"
+### LCD showing "SMILING"
 ![LCD SMILING](docs/lcdSmile.jpg)
 
-### LCD mostrando "SERIOUS"
+### LCD showing "SERIOUS"
 ![LCD SERIOUS](docs/lcdSerious.jpg)
