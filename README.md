@@ -116,3 +116,58 @@ On Linux/macOS, the port may look like /dev/ttyUSB0
 
 ### LCD showing "SERIOUS"
 ![LCD SERIOUS](docs/lcdSerious.jpg)
+
+
+# 🦾 Arm Position Tracker with Python (MediaPipe) and Arduino (Servo + LCD)
+
+This project integrates **computer vision** with **Arduino hardware control**. Using a webcam and MediaPipe, the system tracks a person's **right arm position**, calculates the distance between the wrist and shoulder, and sends that value to an **Arduino**, which moves a **servo motor** and displays the corresponding angle on an **LCD** screen.
+
+---
+
+## 🎯 Project Overview
+
+| Component      | Role                                                                 |
+|----------------|----------------------------------------------------------------------|
+| Python + OpenCV | Tracks arm landmarks using webcam and MediaPipe                    |
+| Serial (USB)    | Sends calculated distance (200–500) from PC to Arduino             |
+| Arduino         | Receives distance, maps it to 0–180°, moves servo accordingly       |
+| LCD (I2C)       | Displays current servo angle based on received distance             |
+
+---
+
+## 🧠 Technologies Used
+
+- **Python**: OpenCV, MediaPipe, pySerial
+- **Arduino**: Servo library, LiquidCrystal_I2C library
+- **Hardware**: Servo motor, I2C LCD display, Arduino board, USB cable
+
+🤖 Arduino Code
+🔧 What It Does
+
+Listens on serial for distances (sent by Python).
+
+Maps values from 200–500 to servo angles 0–180°.
+
+Rotates a servo to that angle.
+
+Displays the angle on an I2C LCD screen.
+
+🔌 Wiring Overview
+Component	Pin
+Servo signal	D9
+LCD SDA	A4 (Uno)
+LCD SCL	A5 (Uno)
+LCD VCC, GND	5V, GND
+
+🔍 If LCD doesn't show text, check the I2C address with an I2C scanner (common: 0x27 or 0x3F).
+
+🎥 Demo Idea (Optional)
+
+Raise your arm in front of the webcam.
+
+The servo moves depending on how high or low your wrist is.
+
+Angle is shown on the LCD in real-time.
+
+## 📷 Results
+![Arm](docs/arm.jpg)
